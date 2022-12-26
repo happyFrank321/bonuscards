@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<table border="1">
+    <caption>Список бонусных карт</caption>
+    <tr>
+        <th>Серия карты</th>
+        <th>Номер карты</th>
+        <th>Дата выпуска карты</th>
+        <th>Дата окончания срока действия</th>
+        <th>Дата последнего использования</th>
+        <th>Сумма покупок по карте</th>
+        <th>Статус карты</th>
+    </tr>
+    {% for card in cards %}
+        <tr>
+        <td>{{ card.card_series }}</td>
+        <td>{{ card.card_number }}</td>
+        <td>{{ card.release_date|date:"d-m-Y-H-i" }}</td>
+        <td>{{ card.expire_date|date:"d-m-Y-H-i" }}</td>
+        <td>{{ card.last_active_date|date:"d-m-Y-H-i" }}</td>
+        <td>{{ card.total_purchases }}</td>
+        <td>{{ card.status }}</td>
+        </tr>
+    {% endfor %}
+</table>
+{#<select name="change_card_status">#}
+{#    <option value="ACTIVE"> Активна</option>#}
+{#    <option value="NOT_ACTIVE"> Не активирована</option>#}
+{#    <option value="DEACTIVE"> Деактивирована</option>#}
+{#</select>#}
+{#        <form method="post" id="status">#}
+{#            {% csrf_token %}#}
+{#            {{ form.as_p }}#}
+{#            <input type="submit" value="Сохранить">#}
+{#        </form>#}
+</body>
+</html>

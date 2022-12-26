@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{% load bootstrap %}
+<form method="GET">
+{{ filter.form|bootstrap }}
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+<table border="1">
+    <caption>Список бонусных карт</caption>
+    <tr>
+        <th>Серия карты</th>
+        <th>Номер карты</th>
+        <th>Дата выпуска карты</th>
+        <th>Дата окончания срока действия</th>
+        <th>Дата последнего использования</th>
+        <th>Сумма покупок по карте</th>
+        <th>Статус карты</th>
+    </tr>
+    {%  for card in filter.qs %}
+        <tr>
+        <td><a href="{% url 'series_detail' card_series=card.card_series %}">{{ card.card_series }}</a></td>
+        <td><a href="{% url 'card_detail' card_series=card.card_series card_number=card.card_number %}">{{ card.card_number }}</a></td>
+        <td>{{ card.release_date}}</td>
+        <td>{{ card.expire_date }}</td>
+        <td>{{ card.last_active_date }}</td>
+        <td>{{ card.total_purchases }}</td>
+        <td>{{ card.status }}</td>
+        </tr>
+    {%endfor %}
+</table>
+<form action="addcards" target="_blank">
+   <button>Переход по ссылке</button>
+</body>
+</html>

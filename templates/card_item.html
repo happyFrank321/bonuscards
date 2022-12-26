@@ -1,0 +1,26 @@
+
+<tr>
+    <td><a href=http://127.0.0.1:8000/?card_series={{ card.card_series }}>{{ card.card_series }}</a></td>
+    <td>
+        <a href="{% url 'card_detail' card_series=card.card_series card_number=card.card_number %}">{{ card.card_number }}</a>
+    </td>
+    <td>{{ card.release_date }}</td>
+    <td>{{ card.expire_date }}</td>
+    <td>{{ card.last_active_date }}</td>
+    <td>{{ card.total_purchases }}</td>
+    <td>
+        {% if card.status == "NOT ACTIVE" %}
+            <div class="p-1 mb-1 bg-secondary text-white rounded text-center">
+                {{ card.status }}
+            </div>
+            {% elif card.status == "ACTIVE" %}
+            <div class="p-1 mb-1 bg-success text-white rounded text-center">
+                {{ card.status }}
+            </div>
+        {% else %}
+            <div class="p-1 mb-1 bg-danger text-white rounded text-center">
+                {{ card.status }}
+            </div>
+        {% endif %}
+    </td>
+</tr>

@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% load crispy_forms_filters %}
+
+{% block title %} Список карт {% endblock %}
+{% block content %}
+    <div class="container p-2 ">
+        <div class="card p-1">
+            <div class="card-body">
+                <h5 class="card-header">Общая информация</h5>
+                <p class="card-text">Всего зарегистрированных карт: <span
+                        style="color:black">{{ total_cards }}</span></p>
+                <p class="card-text">Из них:</p>
+                <ul>
+                    <li>
+                        <p class="card-text">Активированные: <span style="color:Green">{{ active_cards }}</span>
+                        </p></li>
+                    <li><p class="card-text">Не активированные: <span
+                            style="color:Grey">{{ not_active_cards }}</span></p></li>
+                    <li><p class="card-text">Деaктивированные: <span style="color:Red">{{ deactive_cards }}</span>
+                    </p></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="accordion p-2" id="accordionExample">
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headingOne">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne"
+                        aria-expanded="true" aria-controls="collapseOne">
+                    Фильтр
+                </button>
+            </h2>
+            <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
+                 data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <div class="container p-2">
+                            <form method="GET">
+                                <div class="container overflow-hidden">
+                                    <div class="row gy-5">
+                                        <div class="col-6">
+                                            <p>{{ filter_form.card_series|as_crispy_field }}</p>
+                                            {{ filter_form.card_number|as_crispy_field }}
+                                            {{ filter_form.status|as_crispy_field }}
+                                        </div>
+                                        <div class="col-6">
+                                            {{ filter_form.release_date|as_crispy_field }}
+                                            {{ filter_form.expire_date|as_crispy_field }}
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Применить</button>
+                                </div>
+                            </form>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+        <div class="container">
+            {% if filter_qs %}
+                <h1> Список бонусных карт (найдено {{ filter_items_count }} ) </h1>
+                <table class="table">
+                    {% include "mult_cards_table_head.html" %}
+                    {% for card in filter_qs.object_list %}
+                        {% include "card_item.html" with card=card %}
+                    {% endfor %}
+
+                </table>
+                {% include "paginator.html" with filter_qs=filter_qs %}
+            {% else %}
+                <h5>Карт не найдено</h5>
+            {% endif %}
+        </div>
+
+{% endblock %}

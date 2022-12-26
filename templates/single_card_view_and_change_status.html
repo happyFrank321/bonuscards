@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% load crispy_forms_filters %}
+
+{% block title %} Список карт {% endblock %}
+{% block content %}
+    <div class="row">
+    <div class="card" style="width: 18rem;">
+        <div class="card-body">
+            <h5 class="card-title"> Карта {{ bonuscard.card_series }} {{ bonuscard.card_number }}</h5>
+            <p class="card-text">Серия:<br> <b>{{ bonuscard.card_series }}</b></p>
+            <p class="card-text">Номер:<br> <b>{{ bonuscard.card_number }}</b></p>
+            <p class="card-text">Дата выпуска:<br> <b>{{ bonuscard.release_date }}</b></p>
+            <p class="card-text">Дата окончания:<br> <b>{{ bonuscard.expire_date }}</b></p>
+            <p class="card-text">Дата последнего использования:<br> <b>{{ bonuscard.last_active_date }}</b></p>
+            <p class="card-text">Сумма покупок:<br> <b>{{ bonuscard.total_purchases }}</b></p>
+            <p class="card-text">Статус:<br> {% if bonuscard.status == "NOT ACTIVE" %}
+                <div class="p-1 mb-1 bg-secondary text-white rounded text-center">
+                    {{ bonuscard.status }}
+                </div>
+            {% elif bonuscard.status == "ACTIVE" %}
+                <div class="p-1 mb-1 bg-success text-white rounded text-center">
+                    {{ bonuscard.status }}
+                </div>
+            {% else %}
+                <div class="p-1 mb-1 bg-danger text-white rounded text-center">
+                    {{ bonuscard.status }}
+                </div>
+            {% endif %}
+            </p>
+            <form method="post" id="status" class="form-group">
+                {% csrf_token %}
+                {{ form| crispy }}
+                <input type="submit" value="Сохранить">
+            </form>
+        </div>
+    </div>
+    <div class="card" style="width: 62rem;">
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Наименования товара</th>
+            <th scope="col">Дата покупки</th>
+            <th scope="col">Сумма покупки</th>
+        </tr>
+        </thead>
+        <tr>
+            {% for item in card_purchase %}
+                <td>{{ item.item }}</td>
+                <td>{{ item.date }}</td>
+                <td>{{ item.total_price }}</td>
+            {% endfor %}
+        </tr>
+    </table>
+    </div>
+    </div>
+{% endblock %}

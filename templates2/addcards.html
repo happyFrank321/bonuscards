@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <form id="form-container" method="POST">
+        {% csrf_token %}
+        {{form.as_p}}
+        <label for="name">Время действия</label>
+        <input autocomplete="off" type="text" name="username" id="name" class="name">
+        <button type="submit">Create Birds</button>
+    </form>
+
+{% if submitbutton == "Submit" %}
+<h1>Ваша карта успешно зарегистрирована</h1>
+{% endif %}
+</form>
+</body>
+</html>
